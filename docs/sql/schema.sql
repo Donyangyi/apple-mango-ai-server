@@ -2,6 +2,7 @@ DROP TABLE IF EXISTS crawl_log CASCADE;
 DROP TABLE IF EXISTS video_score CASCADE;
 DROP TABLE IF EXISTS keyword_mapping CASCADE;
 DROP TABLE IF EXISTS keyword_trend CASCADE;
+DROP TABLE IF EXISTS category_trend CASCADE;
 DROP TABLE IF EXISTS comment_sentiment CASCADE;
 DROP TABLE IF EXISTS video_sentiment CASCADE;
 DROP TABLE IF EXISTS video_comment CASCADE;
@@ -89,7 +90,25 @@ CREATE TABLE keyword_trend (
     date DATE,
     platform VARCHAR(50),
     search_volume INT,
+    video_count INT,
+    avg_sentiment DECIMAL(5,4),
+    avg_trend DECIMAL(5,4),
+    avg_total_score DECIMAL(6,3),
+    rank INT,
     PRIMARY KEY(keyword, date, platform)
+);
+
+CREATE TABLE category_trend (
+    category VARCHAR(100),
+    date DATE,
+    platform VARCHAR(50),
+    video_count INT,
+    avg_sentiment DECIMAL(5,4),
+    avg_trend DECIMAL(5,4),
+    avg_total_score DECIMAL(6,3),
+    search_volume BIGINT,
+    rank INT,
+    PRIMARY KEY(category, date, platform)
 );
 
 CREATE TABLE keyword_mapping (

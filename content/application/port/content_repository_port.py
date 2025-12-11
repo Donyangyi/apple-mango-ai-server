@@ -7,6 +7,7 @@ from content.domain.crawl_log import CrawlLog
 from content.domain.creator_account import CreatorAccount
 from content.domain.keyword_mapping import KeywordMapping
 from content.domain.keyword_trend import KeywordTrend
+from content.domain.category_trend import CategoryTrend
 from content.domain.video import Video
 from content.domain.video_comment import VideoComment
 from content.domain.video_score import VideoScore
@@ -40,6 +41,10 @@ class ContentRepositoryPort(ABC):
 
     @abstractmethod
     def upsert_keyword_trend(self, trend: KeywordTrend) -> KeywordTrend:
+        raise NotImplementedError
+
+    @abstractmethod
+    def upsert_category_trend(self, trend: CategoryTrend) -> CategoryTrend:
         raise NotImplementedError
 
     @abstractmethod

@@ -8,6 +8,7 @@ from content.domain.crawl_log import CrawlLog
 from content.domain.creator_account import CreatorAccount
 from content.domain.keyword_mapping import KeywordMapping
 from content.domain.keyword_trend import KeywordTrend
+from content.domain.category_trend import CategoryTrend
 from content.domain.video import Video
 from content.domain.video_comment import VideoComment
 from content.domain.video_score import VideoScore
@@ -20,6 +21,7 @@ from content.infrastructure.orm.models import (
     VideoSentimentORM,
     CommentSentimentORM,
     KeywordTrendORM,
+    CategoryTrendORM,
     KeywordMappingORM,
     VideoScoreORM,
     CrawlLogORM,
@@ -160,6 +162,35 @@ class ContentRepositoryImpl(ContentRepositoryPort):
             )
             self.db.add(orm)
         orm.search_volume = trend.search_volume
+        orm.video_count = trend.video_count
+        orm.avg_sentiment = trend.avg_sentiment
+        orm.avg_trend = trend.avg_trend
+        orm.avg_total_score = trend.avg_total_score
+        orm.rank = trend.rank
+        self.db.commit()
+        return trend
+
+    def upsert_category_trend(self, trend: CategoryTrend) -> CategoryTrend:
+        orm = (
+            self.db.query(CategoryTrendORM)
+            .filter(
+                CategoryTrendORM.category == trend.category,
+                CategoryTrendORM.date == trend.date,
+                CategoryTrendORM.platform == trend.platform,
+            )
+            .one_or_none()
+        )
+        if orm is None:
+            orm = CategoryTrendORM(
+                category=trend.category, date=trend.date, platform=trend.platform
+            )
+            self.db.add(orm)
+        orm.video_count = trend.video_count
+        orm.avg_sentiment = trend.avg_sentiment
+        orm.avg_trend = trend.avg_trend
+        orm.avg_total_score = trend.avg_total_score
+        orm.search_volume = trend.search_volume
+        orm.rank = trend.rank
         self.db.commit()
         return trend
 

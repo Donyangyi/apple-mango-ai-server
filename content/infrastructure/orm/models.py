@@ -97,6 +97,25 @@ class KeywordTrendORM(Base):
     date = Column(Date, primary_key=True)
     platform = Column(String(50), primary_key=True)
     search_volume = Column(Integer)
+    video_count = Column(Integer)
+    avg_sentiment = Column(DECIMAL(5, 4))
+    avg_trend = Column(DECIMAL(5, 4))
+    avg_total_score = Column(DECIMAL(6, 3))
+    rank = Column(Integer)
+
+
+class CategoryTrendORM(Base):
+    __tablename__ = "category_trend"
+
+    category = Column(String(100), primary_key=True)
+    date = Column(Date, primary_key=True)
+    platform = Column(String(50), primary_key=True)
+    video_count = Column(Integer)
+    avg_sentiment = Column(DECIMAL(5, 4))
+    avg_trend = Column(DECIMAL(5, 4))
+    avg_total_score = Column(DECIMAL(6, 3))
+    search_volume = Column(BigInteger)
+    rank = Column(Integer)
 
 
 class KeywordMappingORM(Base):
